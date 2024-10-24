@@ -34,7 +34,7 @@ int main()
     std::srand(static_cast<unsigned int>(std::time(0)));
 
     //Load already trained classifiers
-    Cdp cdp();
+    Cdp cdp;
     cdp.LoadClassifiers();
 
     while (true) {
