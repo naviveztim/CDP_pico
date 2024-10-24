@@ -34,8 +34,7 @@ int main()
     std::srand(static_cast<unsigned int>(std::time(0)));
 
     //Load already trained classifiers
-    int num_classifiers = 1000; // NOTE: Number of classifiers, must be the same as specified during training
-    Cdp cdp(num_classifiers);
+    Cdp cdp();
     cdp.LoadClassifiers();
 
     while (true) {

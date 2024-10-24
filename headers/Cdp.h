@@ -22,18 +22,11 @@
 #include <memory>
 #include "ShapeletClassifier.h"
 
-
-//const string CLASSIFIERS_FOLDER = ".\\_classifiers\\";
-//const string CLASSIFIERS_PATH = CLASSIFIERS_FOLDER + "//" + "Classifiers.bin"; 
-
 class Cdp {
 
 public:
     API_EXPORT Cdp();
-    //API_EXPORT void Fit(DataSet& trainDataSet);
-    //API_EXPORT vector<int> ClassifyDataset(DataSet& testDataSet);
     API_EXPORT int ClassifyTimeSeries(TimeSeries& timeSeries);
-    //API_EXPORT void SaveClassifiers();
     API_EXPORT void LoadClassifiers(); 
 
 private: 
@@ -42,9 +35,6 @@ private:
     vector<tuple<int, string>> _decisionPatterns;
 
 private: 
-    //shared_ptr<ShapeletClassifier> _trainDecisionTree(vector<int>& classesInDataSet, DataSet& dataSet);
-    //void _trainDecisionTreeS(DataSet& dataSet);
-    //void _prepareDecisionPatterns(DataSet& trainDataSet);
     vector<int> _getMostPopularIndexesFromDecisionPattern(const string& decisionPattern); 
     
 };
