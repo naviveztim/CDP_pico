@@ -1,0 +1,70 @@
+1. Setup pico-sdk: 
+cd /mnt/c/Users/<...>/
+mkdir pico
+cd pico
+
+git clone -b master https://github.com/raspberrypi/pico-sdk.git
+cd pico-sdk
+git submodule update --init
+cd ..
+git clone -b master https://github.com/raspberrypi/pico-examples.git
+
+2. Get compilers
+sudo apt update
+sudo apt install gcc-arm-none-eabi libnewlib-arm-none-eabi build-essential libssl-dev tk tkinter python3-tk
+
+3. Build CMake from source
+The version of CMake that comes with Ubuntu 18.04 LTS needs to be updated to meet the minimum requirements of the Pico build system.
+
+wget https://github.com/Kitware/CMake/releases/download/v3.19.4/cmake-3.19.4.tar.gz
+tar -zxvf cmake-3.19.4.tar.gz
+cd cmake-3.19.4/
+./bootstrap
+make
+sudo make install
+
+4. Get the Pico Project Generator
+git clone https://github.com/raspberrypi/pico-project-generator.git
+
+5. Generate your project
+Note: Make sure you are running the Xserver. See my video at https://www.youtube.com/watch?v=ymV7j003ETA)
+
+cd pico-project-generator
+export PICO_SDK_PATH="/mnt/c/Users/PC/pico/pico-sdk"
+#export DISPLAY=127.0.0.1:0- this does not work 
+#export DISPLAY=$(cat /etc/resolv.conf | grep nameserver | awk '{print $2}'):0
+run cmd 
+type 'ipconfig'
+get <ip> and set it as
+export DISPLAY=<ip>.1:0
+./pico_project.py --gui
+make
+# Star VS 2022 on the project
+cd cdp_c_plus_pico
+"/mnt/c/Program Files/Microsoft Visual Studio/2022/Community/Common7/IDE/devenv.exe" .
+
+// Convert binary file to header: 
+xxd -i binary_file.bin > binary_data.h
+
+
+# Build project
+rm -rf ./build
+mkdir build
+cd build
+cmake ..
+make
+
+# Deploy .uf2
+- hold button on Raspberry Pi Pico and then plug cabel into USB
+- Raspberry Pi Pico is recognized as external storage device. 
+- Drag and drop .uf2 file into that storage- it runs automatically
+
+
+# Check what symbols are generated in the object file (Classifiers.o): 
+cd ./build
+nm  Classifiers.o
+0008fd68 D _binary__mnt_c_Users_PC_pico_cdp_c_plus_pico_models_Classifiers_bin_end
+0008fd68 A _binary__mnt_c_Users_PC_pico_cdp_c_plus_pico_models_Classifiers_bin_size
+00000000 D _binary__mnt_c_Users_PC_pico_cdp_c_plus_pico_models_Classifiers_bin_start
+
+Use these symbols as extern in C++ code to access the binary object
