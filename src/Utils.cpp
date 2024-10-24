@@ -147,12 +147,12 @@ std::vector<std::tuple<int, std::string>> Utils::LoadDecisionPattern(std::string
 
 	for (size_t i = 0; i < vector_size; ++i) {
 		
-		// read the class index 
+		// Read the class index 
 		int int_value=-1;
 		ifs.read(reinterpret_cast<char*>(&int_value), sizeof(int_value));
 
 		// Read the decision pattern 
-		size_t string_size="";
+		size_t string_size=0;
 		ifs.read(reinterpret_cast<char*>(&string_size), sizeof(string_size));
 
 		// Push the pair to the decision pattern container 
