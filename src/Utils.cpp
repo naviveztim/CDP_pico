@@ -22,7 +22,7 @@ double Utils::EuclideanDistance(const std::vector<double>& array1
 
 	double euclidean = 0.0;
 
-	for (size_t i = 0; i < array1.size(); i++) {
+	for (uint32_t i = 0; i < array1.size(); i++) {
 		euclidean += (array1[i] - array2[i]) * (array1[i] - array2[i]);
 		if (euclidean > currentMinDistance) {
 			break;
@@ -42,13 +42,13 @@ double Utils::SimilarityCoefficient(const string& s1, const std::string& s2) {
 		throw std::invalid_argument("input string");
 	}
 
-	size_t length = s1.length();
+	uint32_t length = s1.length();
 
 	if (length != s2.length()) {
 		throw std::invalid_argument("input string");
 	}
 
-	for (size_t i = 0; i < length; i++) {
+	for (uint32_t i = 0; i < length; i++) {
 		if (array1[i] == array2[i]) {
 			result += 1.0;
 		}
@@ -62,13 +62,13 @@ double Utils::SimilarityCoefficient(const string& s1, const std::string& s2) {
 double Utils::SubsequenceDist(const TimeSeries& timeSeries
 								, const std::vector<double>& candidateValues) 
 {
-	size_t timeSeriesLen = timeSeries.Values.size();
-	size_t candidateLen = candidateValues.size();
+	uint32_t timeSeriesLen = timeSeries.Values.size();
+	uint32_t candidateLen = candidateValues.size();
 
 	double minDistance = std::numeric_limits<double>::max();
 	std::vector<double> currentArray(candidateLen);
 
-	for (size_t k = 0; k < timeSeriesLen - candidateLen + 1; k++) {
+	for (uint32_t k = 0; k < timeSeriesLen - candidateLen + 1; k++) {
 		
 		std::copy(timeSeries.Values.begin() + k, timeSeries.Values.begin() + k + candidateLen, currentArray.begin());
 		
@@ -81,7 +81,7 @@ double Utils::SubsequenceDist(const TimeSeries& timeSeries
 
 
 double Utils::AverageValue(const std::vector<double>& array, int startIndex, int numElements) {
-	if (array.size() < static_cast<size_t>(startIndex + numElements)) {
+	if (array.size() < static_cast<uint32_t>(startIndex + numElements)) {
 		throw std::invalid_argument("averageValueArguments");
 	}
 
@@ -126,10 +126,10 @@ void Utils::Normalize(std::vector<double>& signal) {
 void Utils::CompressATimeSeries(TimeSeries& timeSeries
 								, int compressionIndex) 
 {
-	size_t newTimeSeriesLength = timeSeries.Values.size() / compressionIndex;
+	uint32_t newTimeSeriesLength = timeSeries.Values.size() / compressionIndex;
 	std::vector<double> newValues(newTimeSeriesLength);
-	size_t startIndex = 0;
-	for (size_t i = 0; i < newTimeSeriesLength; i++) {
+	uint32_t startIndex = 0;
+	for (uint32_t i = 0; i < newTimeSeriesLength; i++) {
 		newValues[i] = AverageValue(timeSeries.Values, (int)startIndex, compressionIndex);
 		startIndex += compressionIndex;
 	}
@@ -139,20 +139,20 @@ void Utils::CompressATimeSeries(TimeSeries& timeSeries
 std::vector<std::tuple<int, std::string>> Utils::LoadDecisionPattern(std::stringstream& ifs) {
 	
 	// Read the size of the entire vector 
-	size_t vector_size=0;
+	uint32_t vector_size=0;
 	ifs.read(reinterpret_cast<char*>(&vector_size), sizeof(vector_size));
 
 	std::vector<std::tuple<int, std::string>> data;
 	data.reserve(vector_size);
 
-	for (size_t i = 0; i < vector_size; ++i) {
+	for (uint32_t i = 0; i < vector_size; ++i) {
 		
 		// Read the class index 
 		int int_value=-1;
 		ifs.read(reinterpret_cast<char*>(&int_value), sizeof(int_value));
 
 		// Read the decision pattern 
-		size_t string_size=0;
+		uint32_t string_size=0;
 		ifs.read(reinterpret_cast<char*>(&string_size), sizeof(string_size));
 
 		// Push the pair to the decision pattern container 
@@ -176,7 +176,7 @@ Shapelet Utils::Deserialize(std::stringstream& ifs) {
 	ifs.read(reinterpret_cast<char*>(&deserializedObject.RightClassIndex), sizeof(deserializedObject.RightClassIndex));
 
 	// Deserialize vector 
-	size_t vectorSize;
+	uint32_t vectorSize;
 	ifs.read(reinterpret_cast<char*>(&vectorSize), sizeof(vectorSize));
 	deserializedObject.ShapeletsValues.resize(vectorSize);
 	if (vectorSize > 0) {

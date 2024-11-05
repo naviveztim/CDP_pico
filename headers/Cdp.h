@@ -35,7 +35,8 @@ private:
     vector<tuple<int, string>> _decisionPatterns;
 
 private: 
-    vector<int> _getMostPopularIndexesFromDecisionPattern(const string& decisionPattern); 
+    vector<int> _getMostPopularIndexesFromDecisionPattern(const string& decisionPattern);
+    uint32_t _convertToLittleEndian(uint32_t value); 
     
 };
 
