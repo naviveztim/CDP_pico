@@ -6,62 +6,41 @@
 #include "../headers/Cdp.h"
 #include "../headers/Utils.h"
 #include <chrono>
+#include <random>
 
 
-TimeSeries generateRandomTimeSeries(bool useSignal, bool normalize, int compressionFactor) {
+TimeSeries generateRandomTimeSeries(bool useSignal, bool normalize, int compressionFactor, int numSamples) {
     
     TimeSeries ts;
-    ts.ClassIndex = -1;
+    
+    // Resize the vector to hold the given number of elements
+    ts.Values.resize(numSamples);
 
-    ts.Values = {
-        -5.9474332e-01, -5.4580966e-01, -5.5003754e-01, -6.2582040e-01, -7.1260967e-01, -8.3123553e-01, -9.2234206e-01, -9.2832018e-01,
-        -9.3328404e-01, -9.6046855e-01, -9.7990809e-01, -9.8304530e-01, -9.8848507e-01, -9.9826488e-01, -1.0018911e+00, -1.0157511e+00,
-        -1.0189424e+00, -1.0140009e+00, -1.0093621e+00, -9.9988484e-01, -1.0128978e+00, -1.0226405e+00, -1.0282372e+00, -1.0543879e+00,
-        -1.0633438e+00, -1.0529111e+00, -1.0471187e+00, -1.0563971e+00, -1.0760559e+00, -1.1018916e+00, -1.1136662e+00, -1.1081667e+00,
-        -1.0806146e+00, -1.0597597e+00, -1.0588658e+00, -1.0409419e+00, -1.0161159e+00, -9.6923975e-01, -9.0918639e-01, -8.6975977e-01,
-        -8.3656617e-01, -7.9945118e-01, -7.3513645e-01, -6.5987785e-01, -6.2567992e-01, -6.2418797e-01, -5.9193287e-01, -5.4263053e-01,
-        -5.2213770e-01, -4.9247907e-01, -4.5815376e-01, -3.7528751e-01, -2.7191912e-01, -2.0178549e-01, -1.5237654e-01, -5.3538253e-02,
-         9.8363778e-02,  1.6873140e-01,  2.8900894e-01,  3.5377694e-01,  3.2521187e-01,  3.7095558e-01,  4.5916380e-01,  5.6032126e-01,
-         6.0267526e-01,  6.3201230e-01,  6.5801035e-01,  7.4457180e-01,  8.2525431e-01,  8.6189388e-01,  8.9942727e-01,  8.6571936e-01,
-         9.2096998e-01,  1.0044152e+00,  1.0227695e+00,  9.5147636e-01,  8.4450567e-01,  7.9566075e-01,  7.3650308e-01,  6.9361337e-01,
-         7.0052055e-01,  7.4183976e-01,  8.1823510e-01,  7.5475578e-01,  6.4438895e-01,  6.6658582e-01,  6.2743499e-01,  5.9495961e-01,
-         6.5076395e-01,  6.8328942e-01,  6.5914570e-01,  6.0440397e-01,  5.9596155e-01,  5.5577971e-01,  4.9742044e-01,  4.7694184e-01,
-         4.4376359e-01,  4.4419206e-01,  4.0895292e-01,  3.6305074e-01,  3.0724314e-01,  2.4913058e-01,  2.4098030e-01,  2.4535558e-01,
-         2.6627120e-01,  2.4837019e-01,  2.1097728e-01,  2.1621528e-01,  2.1828372e-01,  2.5447016e-01,  3.2041958e-01,  3.6378936e-01,
-         3.9251151e-01,  4.1477925e-01,  4.6642870e-01,  5.2176417e-01,  5.9594355e-01,  6.5371525e-01,  7.1131878e-01,  7.1519398e-01,
-         6.4179575e-01,  6.4345751e-01,  6.5991113e-01,  6.7135092e-01,  6.6233830e-01,  6.1275766e-01,  5.6656724e-01,  5.4290838e-01,
-         5.0065029e-01,  4.3841508e-01,  3.8457622e-01,  3.4159639e-01,  3.0987347e-01,  2.6841416e-01,  2.8265434e-01,  2.8936805e-01,
-         2.8171761e-01,  2.8467130e-01,  2.5836562e-01,  2.7278403e-01,  3.2455621e-01,  3.6870173e-01,  4.5650326e-01,  5.5916853e-01,
-         6.1596826e-01,  7.0338072e-01,  7.6470274e-01,  7.6480067e-01,  7.6798911e-01,  8.0992711e-01,  9.0607339e-01,  9.6013340e-01,
-         1.0569808e+00,  1.0640544e+00,  1.0447418e+00,  1.1157214e+00,  1.0988304e+00,  1.0484350e+00,  9.4257488e-01,  9.0491953e-01,
-         8.9548058e-01,  8.0691715e-01,  7.6108156e-01,  7.3731608e-01,  7.0644279e-01,  6.5271948e-01,  5.8950348e-01,  5.6895225e-01,
-         5.2482560e-01,  4.3618993e-01,  3.0387835e-01,  1.7378614e-01,  3.7460908e-02, -8.8545783e-02, -1.9104742e-01, -2.7859281e-01,
-        -2.8106769e-01, -2.7524099e-01, -3.0451395e-01, -2.9658520e-01, -2.7750591e-01, -1.9328516e-01, -1.5034674e-01, -1.0119495e-01,
-        -5.0732586e-02, -4.0088168e-02, -6.6912816e-02, -8.7490857e-02, -8.1316500e-02, -6.3804176e-02,  3.5109887e-02,  7.7250659e-02,
-         1.7092143e-01,  2.7261800e-01,  3.2323809e-01,  4.3021696e-01,  4.9556938e-01,  5.9898283e-01,  6.8808964e-01,  8.5103876e-01,
-         9.6217465e-01,  1.0773957e+00,  1.1461422e+00,  1.2122648e+00,  1.4326479e+00,  1.5735666e+00,  1.6916741e+00,  1.7660908e+00,
-         1.7419970e+00,  1.6947602e+00,  1.6869967e+00,  1.6411735e+00,  1.5264608e+00,  1.4244026e+00,  1.3248196e+00,  1.4067959e+00,
-         1.4341141e+00,  1.4815486e+00,  1.6138124e+00,  1.7697481e+00,  1.7597772e+00,  1.6162207e+00,  1.4279405e+00,  1.2653185e+00,
-         1.1079303e+00,  9.9620492e-01,  9.0866986e-01,  9.1963474e-01,  1.0007086e+00,  1.0475561e+00,  1.1737445e+00,  1.3064467e+00,
-         1.4170968e+00,  1.3574223e+00,  1.1062825e+00,  7.9759048e-01,  5.2058312e-01,  3.1608684e-01,  6.5971347e-02, -1.7664487e-01,
-        -3.4354332e-01, -4.9705499e-01, -7.0832363e-01, -8.5447222e-01, -9.5095810e-01, -9.9646140e-01, -1.0068679e+00, -9.9181260e-01,
-        -9.7492736e-01, -9.4115677e-01, -9.0389162e-01, -9.2807649e-01, -9.8852119e-01, -1.0896447e+00, -1.2276310e+00, -1.4023345e+00,
-        -1.5444324e+00, -1.6623579e+00, -1.7456193e+00, -1.8025951e+00, -1.8416895e+00, -1.8652671e+00, -1.8827676e+00, -1.8951460e+00,
-        -1.9056413e+00, -1.9136216e+00, -1.9212435e+00, -1.9275427e+00, -1.9317351e+00, -1.9365313e+00, -1.9404409e+00, -1.9438557e+00,
-        -1.9473320e+00, -1.9503874e+00, -1.9545276e+00, -1.9572392e+00, -1.9597502e+00, -1.9621875e+00, -1.9644237e+00, -1.9672540e+00,
-        -1.9695211e+00, -1.9713553e+00, -1.9735007e+00, -1.9757889e+00, -1.9774463e+00, -1.9789185e+00
-    };
+    // Create a random number generator
+    std::random_device rd;  
+    std::mt19937 gen(rd()); 
 
+    // Define the distribution in the range [-2, 2]
+    std::uniform_real_distribution<float> dis(-2.0f, 2.0f);
+
+    // Fill 'ts.Values' with 576 random values
+    for (auto i = 0; i < ts.Values.size(); ++i) {
+        ts.Values[i] = dis(gen);
+    }
+
+    // Take derivative, if specified
     if (!useSignal)
     {
         Utils::Derivative(ts.Values);
     }
 
+    // Normalize the signal, if specified
     if (normalize)
     {
         Utils::Normalize(ts.Values);
     }
 
+    // Compress the signal, if specified 
     if (compressionFactor > 1)
     {
         Utils::CompressATimeSeries(ts, compressionFactor);
@@ -74,14 +53,17 @@ TimeSeries generateRandomTimeSeries(bool useSignal, bool normalize, int compress
 int main()
 {
     int found_index = 1;
+    int numSamples = 500; 
+    int testRepetitions = 100; 
+    std::chrono::high_resolution_clock::time_point start, end;
+    std::chrono::duration<double> elapsed;
+    float elapsedTime = 0.0; 
     Cdp cdp;
     
     stdio_init_all();  // Initialize USB serial
 
-    // Wait a bit to ensure the USB serial is ready (sometimes needed)
+    // Wait a bit to ensure the USB serial is ready
     sleep_ms(2000);
-
-    printf("stdio initialized successfully.\n"); 
 
     try {
         // Load already trained classifiers
@@ -89,30 +71,39 @@ int main()
 
         while (true) {
             try {
+
+                start = std::chrono::high_resolution_clock::now();
+
                 // Obtain the time series to be classified
-                TimeSeries ts = generateRandomTimeSeries(true, true, 4);
+                TimeSeries ts = generateRandomTimeSeries(true, true, 4, numSamples);
 
-                // Classify the time series 
-                found_index = cdp.ClassifyTimeSeries(ts);
-                
+                for (auto i = 0; i < testRepetitions; i++) {
+                    
+                    // Classify the time series 
+                    found_index = cdp.ClassifyTimeSeries(ts);
+                }
+
+                end = std::chrono::high_resolution_clock::now();
+                elapsed = std::chrono::duration_cast<std::chrono::nanoseconds>(end - start);
+                elapsedTime = elapsed.count() / testRepetitions; 
+
+                // Show timiing
+                printf("Average Inference Time: %.2f\n\n", elapsedTime);
+                 
                 // Show results
-                printf("Predicted class index: %d\n", found_index);
-                printf("OK\n"); 
-
+                printf("Predicted class index: %d\n\n", found_index);
+                
                 sleep_ms(1000);
             }
             catch (const std::exception& e) {
-                // Catch any exceptions within the loop and print error message
                 printf("Error during classification: %s\n", e.what());
             }
         }
     }
     catch (const std::exception& e) {
-        // Catch any exceptions during setup and initialization
         printf("Initialization error: %s\n", e.what());
     }
     catch (...) {
-        // Catch all other types of exceptions (non-standard exceptions)
         printf("An unknown error occurred during initialization.\n");
     }
 
