@@ -54,7 +54,7 @@ int main()
 {
     int found_index = 1;
     int numSamples = 500; 
-    int testRepetitions = 100; 
+    int testRepetitions = 300; 
     std::chrono::high_resolution_clock::time_point start, end;
     std::chrono::duration<double> elapsed;
     float elapsedTime = 0.0; 
@@ -72,25 +72,20 @@ int main()
         while (true) {
             try {
 
-                start = std::chrono::high_resolution_clock::now();
-
                 // Obtain the time series to be classified
                 TimeSeries ts = generateRandomTimeSeries(true, true, 4, numSamples);
 
+                uint64_t start = time_us_64();
                 for (auto i = 0; i < testRepetitions; i++) {
                     
                     // Classify the time series 
                     found_index = cdp.ClassifyTimeSeries(ts);
                 }
+                uint64_t end = time_us_64();
 
-                end = std::chrono::high_resolution_clock::now();
-                elapsed = std::chrono::duration_cast<std::chrono::nanoseconds>(end - start);
-                elapsedTime = elapsed.count() / testRepetitions; 
+                double elapsedTime_us = static_cast<double>(end - start) / static_cast<double>(testRepetitions);
 
-                // Show timiing
-                printf("Average Inference Time: %.2f\n\n", elapsedTime);
-                 
-                // Show results
+                printf("Average Inference Time: %.2f milliseconds\n", elapsedTime_us/1000.0);
                 printf("Predicted class index: %d\n\n", found_index);
                 
                 sleep_ms(1000);
