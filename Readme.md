@@ -1,6 +1,6 @@
 Accurate time series classification on Raspberry Pi Pico 
 
-1. Produce a model using [C++ binaries](https://github.com/naviveztim/CDP_pico/tree/main). 
+1. Produce a model using [C++ binaries](https://github.com/naviveztim/CDP_C_plus_binaries). 
    Based on operating system one can download Windows or Linux version of them.
 2. Build the project
 
