@@ -24,6 +24,23 @@ set(PICO_CXX_ENABLE_EXCEPTIONS 1)
 
 set(PICO_CXX_ENABLE_RTTI 1)
 
+# Set the CPU architecture and FPU settings for Raspberry Pi Pico
+set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -mcpu=cortex-m0plus -mthumb")
+
+# Set build type to Release if no other build type is specified
+if(NOT CMAKE_BUILD_TYPE)
+  set(CMAKE_BUILD_TYPE Release CACHE STRING "Choose the type of build (Debug or Release)" FORCE)
+endif()
+
+# Set compiler flags for Release build
+set(CMAKE_C_FLAGS_RELEASE "${CMAKE_C_FLAGS_RELEASE} -O3 -ffast-math -funroll-loops ") #-flto
+set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -O3 -ffast-math -funroll-loops ") # -flto
+
+#set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -Wl,--wrap=puts -Wl,--wrap=printf -Wl,--wrap=putchar")
+
+# Set the linker flags to include Link Time Optimization (LTO)
+#set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -flto")
+
 # Initialise the Raspberry Pi Pico SDK
 pico_sdk_init()
 
@@ -54,8 +71,7 @@ pico_enable_stdio_uart(cdp_c_plus_pico 1)
 pico_enable_stdio_usb(cdp_c_plus_pico 1)
 
 # Add the standard library to the build
-target_link_libraries(cdp_c_plus_pico
-        pico_stdlib)
+target_link_libraries(cdp_c_plus_pico pico_stdlib pico_stdio)
 
 # Include header files from the `header` directory
 target_include_directories(cdp_c_plus_pico PRIVATE

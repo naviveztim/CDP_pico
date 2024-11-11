@@ -5,6 +5,7 @@
 #include "hardware/interp.h"
 #include "../headers/Cdp.h"
 #include "../headers/Utils.h"
+#include "pico/time.h"
 #include <chrono>
 #include <random>
 
@@ -53,9 +54,10 @@ TimeSeries generateRandomTimeSeries(bool useSignal, bool normalize, int compress
 int main()
 {
     int found_index = 1;
-    int numSamples = 500; 
-    int testRepetitions = 300; 
+    int numSamples = 286; 
+    int testRepetitions = 100; 
     std::chrono::high_resolution_clock::time_point start, end;
+    absolute_time_t t1, t2;
     std::chrono::duration<double> elapsed;
     float elapsedTime = 0.0; 
     Cdp cdp;
@@ -75,17 +77,19 @@ int main()
                 // Obtain the time series to be classified
                 TimeSeries ts = generateRandomTimeSeries(true, true, 4, numSamples);
 
-                uint64_t start = time_us_64();
+                //uint64_t start = time_ns_64();
+                t1 = get_absolute_time();
                 for (auto i = 0; i < testRepetitions; i++) {
                     
                     // Classify the time series 
                     found_index = cdp.ClassifyTimeSeries(ts);
                 }
-                uint64_t end = time_us_64();
+                //uint64_t end = time_ns_64();
+                t2 = get_absolute_time();
 
-                double elapsedTime_us = static_cast<double>(end - start) / static_cast<double>(testRepetitions);
+                double elapsedTime_us = static_cast<double>(absolute_time_diff_us(t1, t2)) / static_cast<double>(testRepetitions);
 
-                printf("Average Inference Time: %.2f milliseconds\n", elapsedTime_us/1000.0);
+                printf("Average Inference Time: %.2f microseconds\n", elapsedTime_us);
                 printf("Predicted class index: %d\n\n", found_index);
                 
                 sleep_ms(1000);
