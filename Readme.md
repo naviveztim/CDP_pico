@@ -1,8 +1,10 @@
-Accurate time series classification on Raspberry Pi Pico 
-For more [info](https://medium.com/@ivan_mitzev/accurate-time-series-classification-algorithm-on-raspberry-pi-pico-113a27523eac)  
+Accurate time series classification on Raspberry Pi Pico-
+for more [info](https://medium.com/@ivan_mitzev/accurate-time-series-classification-algorithm-on-raspberry-pi-pico-113a27523eac)  
+
+In order to train and deploy your own model for time series classification on Raspberry Pi Pico, follow the steps below:  
 
 1. Produce a model using [C++ binaries](https://github.com/naviveztim/CDP_C_plus_binaries). 
-   Based on operating system one can download Windows or Linux version of them.
+   Based on operating system one can download Windows or Linux version of them.  
 2. Build the project
 
 	cd cdp_c_plus_pico  
@@ -12,10 +14,8 @@ For more [info](https://medium.com/@ivan_mitzev/accurate-time-series-classificat
 	cmake ..  
 	make  
 
-3. Deploy uf2 binaries on Raspberry Pi Pico device
-4. test the output on Arduino IDE
-
-
+3. Deploy uf2 binaries on Raspberry Pi Pico device  
+4. test the output on Arduino IDE  
 
 Extra notes:  
 Check what symbols are generated in the object file (Classifiers.bin): 
