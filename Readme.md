@@ -25,4 +25,4 @@ nm  Classifiers.o
 0008fd68 A _binary__mnt_c_Users_PC_pico_cdp_c_plus_pico_models_Classifiers_bin_size
 00000000 D _binary__mnt_c_Users_PC_pico_cdp_c_plus_pico_models_Classifiers_bin_start
 
-Use these symbols as extern in C++ code to access the binary object.
+Use these symbols as extern in C++ code to access the binary object.  
