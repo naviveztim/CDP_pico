@@ -53,7 +53,7 @@ TimeSeries generateRandomTimeSeries(bool useSignal, bool normalize, int compress
 
 int main()
 {
-    int found_index = 1;
+    int found_index = -1;
     int numSamples = 286; 
     int testRepetitions = 100; 
     std::chrono::high_resolution_clock::time_point start, end;
@@ -89,7 +89,7 @@ int main()
 
                 double elapsedTime_us = static_cast<double>(absolute_time_diff_us(t1, t2)) / static_cast<double>(testRepetitions);
 
-                printf("Average Inference Time: %.2f microseconds\n", elapsedTime_us);
+                printf("Average Inference Time: %.2f millisecodns\n", (double)elapsedTime_us/1000.0);
                 printf("Predicted class index: %d\n\n", found_index);
                 
                 sleep_ms(1000);
