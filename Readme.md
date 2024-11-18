@@ -18,11 +18,11 @@ In order to train and deploy your own model for time series classification on Ra
 4. test the output on Arduino IDE  
 
 Extra notes:  
-Check what symbols are generated in the object file (Classifiers.bin): 
-cd ./build
-nm  Classifiers.o
-0008fd68 D _binary__mnt_c_Users_PC_pico_cdp_c_plus_pico_models_Classifiers_bin_end
-0008fd68 A _binary__mnt_c_Users_PC_pico_cdp_c_plus_pico_models_Classifiers_bin_size
-00000000 D _binary__mnt_c_Users_PC_pico_cdp_c_plus_pico_models_Classifiers_bin_start
+Check what symbols are generated in the object file (Classifiers.bin):   
+cd ./build  
+nm  Classifiers.o  
+0008fd68 D _binary__mnt_c_Users_PC_pico_cdp_c_plus_pico_models_Classifiers_bin_end  
+0008fd68 A _binary__mnt_c_Users_PC_pico_cdp_c_plus_pico_models_Classifiers_bin_size  
+00000000 D _binary__mnt_c_Users_PC_pico_cdp_c_plus_pico_models_Classifiers_bin_start  
 
 Use these symbols as extern in C++ code to access the binary object.  
