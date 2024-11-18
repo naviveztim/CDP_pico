@@ -15,7 +15,7 @@ In order to train and deploy your own model for time series classification on Ra
 	make  
 
 3. Deploy uf2 binaries on Raspberry Pi Pico device  
-4. test the output on Arduino IDE  
+4. Test the output on Arduino IDE  
 
 Extra notes:  
 Check what symbols are generated in the object file (Classifiers.bin):   
