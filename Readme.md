@@ -1,5 +1,6 @@
 Accurate time series classification on Raspberry Pi Pico-
-for more [info](https://medium.com/@ivan_mitzev/accurate-time-series-classification-algorithm-on-raspberry-pi-pico-113a27523eac)  
+for more [info](https://medium.com/@ivan_mitzev/accurate-time-series-classification-algorithm-on-raspberry-pi-pico-113a27523eac) or at [cdp-project.com](https://cdp-project.com)
+
 
 In order to train and deploy your own model for time series classification on Raspberry Pi Pico, follow the steps below:  
 
